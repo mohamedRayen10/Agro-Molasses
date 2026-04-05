@@ -1,0 +1,1042 @@
+<!DOCTYPE html>
+<html lang="fr" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AgroMolasses — Alimentation Animale à Base de Mélasse</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            navy:   { DEFAULT: '#0f2d5e', light: '#1a4080', dark: '#081d3d', pale: '#e8f0fd' },
+            azure:  { DEFAULT: '#1e6ab4', light: '#2e85d4', dark: '#155291' },
+            sky:    { DEFAULT: '#3b9fd4', light: '#60b8e8', pale: '#daeef9' },
+            ice:    { DEFAULT: '#f0f6ff', warm: '#e4effc' },
+            slate:  { DEFAULT: '#64748b', light: '#94a3b8' },
+          },
+          fontFamily: {
+            display: ['"Playfair Display"', 'serif'],
+            body:    ['"DM Sans"', 'sans-serif'],
+          },
+        },
+      },
+    }
+  </script>
+
+  <style>
+    body { font-family: 'DM Sans', sans-serif; background: #f8fbff; }
+    h1, h2, h3, .font-display { font-family: 'Playfair Display', serif; }
+
+    /* Scrollbar */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: #f0f6ff; }
+    ::-webkit-scrollbar-thumb { background: #1e6ab4; border-radius: 3px; }
+
+    /* Hero diagonal */
+    .hero-clip { clip-path: polygon(0 0, 100% 0, 100% 90%, 0 100%); }
+
+    /* Nav animated underline */
+    .nav-link { position: relative; }
+    .nav-link::after {
+      content: ''; position: absolute; bottom: -3px; left: 0;
+      width: 0; height: 2px; background: #3b9fd4;
+      transition: width 0.3s ease;
+    }
+    .nav-link:hover::after { width: 100%; }
+
+    /* Card lift */
+    .card-lift {
+      transition: transform 0.3s cubic-bezier(.34,1.56,.64,1), box-shadow 0.3s ease;
+    }
+    .card-lift:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 20px 50px rgba(15,45,94,.14);
+    }
+
+    /* Benefit icon */
+    .benefit-icon { transition: transform 0.3s cubic-bezier(.34,1.56,.64,1); }
+    .benefit-card:hover .benefit-icon { transform: scale(1.15) rotate(-4deg); }
+
+    /* Section title accent */
+    .section-title::before {
+      content: ''; display: block; width: 48px; height: 4px;
+      background: linear-gradient(90deg, #1e6ab4, #3b9fd4);
+      border-radius: 2px; margin: 0 auto 1rem;
+    }
+
+    /* Form field */
+    .form-field:focus {
+      outline: none;
+      border-color: #1e6ab4;
+      box-shadow: 0 0 0 3px rgba(30,106,180,.15);
+    }
+
+    /* Mobile menu */
+    #mobile-menu {
+      transition: max-height 0.4s ease, opacity 0.3s ease;
+      max-height: 0; opacity: 0; overflow: hidden;
+    }
+    #mobile-menu.open { max-height: 500px; opacity: 1; }
+
+    /* Fade up animation */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(28px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .fade-up { animation: fadeUp 0.7s ease both; }
+    .delay-1 { animation-delay: 0.15s; }
+    .delay-2 { animation-delay: 0.30s; }
+    .delay-3 { animation-delay: 0.45s; }
+    .delay-4 { animation-delay: 0.60s; }
+
+    /* Geometric background pattern */
+    .geo-bg {
+      background-image:
+        radial-gradient(circle at 15% 25%, rgba(59,159,212,.12) 0%, transparent 45%),
+        radial-gradient(circle at 85% 75%, rgba(30,106,180,.08) 0%, transparent 45%);
+    }
+
+    /* Wave dividers */
+    .wave-top { shape-outside: inset(0); }
+
+    /* Objectives cards */
+    .obj-card {
+      border-left: 4px solid;
+      transition: all 0.3s ease;
+    }
+    .obj-card:hover { transform: translateX(6px); }
+
+    /* Timeline */
+    .timeline-line::before {
+      content: ''; position: absolute;
+      left: 19px; top: 40px; bottom: 0;
+      width: 2px; background: linear-gradient(to bottom, #1e6ab4, rgba(30,106,180,0));
+    }
+
+    /* Blue gradient button */
+    .btn-primary {
+      background: linear-gradient(135deg, #0f2d5e, #1e6ab4);
+      transition: all 0.2s ease;
+    }
+    .btn-primary:hover { opacity: 0.9; transform: translateY(-1px); box-shadow: 0 8px 24px rgba(15,45,94,.3); }
+
+    .btn-sky {
+      background: linear-gradient(135deg, #1e6ab4, #3b9fd4);
+      transition: all 0.2s ease;
+    }
+    .btn-sky:hover { opacity: 0.9; transform: translateY(-1px); box-shadow: 0 8px 24px rgba(59,159,212,.35); }
+
+    /* Floating label style for inputs */
+    .input-styled {
+      background: #f8fbff;
+      border: 1.5px solid #c7daf5;
+      border-radius: 10px;
+      padding: 11px 14px;
+      width: 100%;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.875rem;
+      color: #0f2d5e;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .input-styled:focus {
+      outline: none;
+      border-color: #1e6ab4;
+      box-shadow: 0 0 0 3px rgba(30,106,180,.12);
+      background: white;
+    }
+    .input-styled::placeholder { color: #94a3b8; }
+
+    /* Tunisian flag accent */
+    .flag-accent {
+      background: linear-gradient(135deg, #e70013 0%, #e70013 50%, #ffffff 50%);
+    }
+  </style>
+</head>
+
+<body class="text-gray-800 overflow-x-hidden" style="background:#f8fbff">
+
+<!-- ═══════════════════════════════════════════════════
+     NAVBAR
+════════════════════════════════════════════════════ -->
+<nav id="navbar" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300"
+     style="background:rgba(248,251,255,0.95);backdrop-filter:blur(16px);border-bottom:1px solid rgba(30,106,180,0.12)">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6">
+    <div class="flex items-center justify-between h-16">
+
+      <!-- Logo -->
+      <a href="#accueil" class="flex items-center gap-2.5 group">
+        <div class="w-9 h-9 rounded-xl flex items-center justify-center shadow-md transition-transform group-hover:scale-105 btn-primary">
+          <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/>
+            <path d="M12 8v4l3 3"/>
+            <path d="M8.5 14.5s1 2 3.5 2 3.5-2 3.5-2"/>
+          </svg>
+        </div>
+        <div>
+          <span class="font-display text-lg font-bold" style="color:#0f2d5e">Agro</span><span class="font-display text-lg font-bold" style="color:#1e6ab4">Molasses</span>
+          <div class="text-xs font-medium" style="color:#64748b;letter-spacing:0.04em;line-height:1">Tunisie</div>
+        </div>
+      </a>
+
+      <!-- Desktop nav -->
+      <ul class="hidden md:flex items-center gap-7">
+        <li><a href="#accueil"  class="nav-link text-sm font-medium text-gray-600 hover:text-navy pb-1 transition-colors">Accueil</a></li>
+        <li><a href="#projet"   class="nav-link text-sm font-medium text-gray-600 hover:text-navy pb-1 transition-colors">Projet</a></li>
+        <li><a href="#produits" class="nav-link text-sm font-medium text-gray-600 hover:text-navy pb-1 transition-colors">Produits</a></li>
+        <li><a href="#avantages" class="nav-link text-sm font-medium text-gray-600 hover:text-navy pb-1 transition-colors">Avantages</a></li>
+        <li><a href="#commande" class="nav-link text-sm font-medium text-gray-600 hover:text-navy pb-1 transition-colors">Commander</a></li>
+        <li><a href="#contact"  class="nav-link text-sm font-medium text-gray-600 hover:text-navy pb-1 transition-colors">Contact</a></li>
+        <li>
+          <a href="#commande" class="px-5 py-2 rounded-full text-sm font-semibold text-white shadow-md btn-primary">
+            Commander
+          </a>
+        </li>
+      </ul>
+
+      <!-- Hamburger -->
+      <button id="menu-btn" class="md:hidden p-2 rounded-lg transition-colors" style="hover:background:#e8f0fd" onclick="toggleMenu()">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0f2d5e" stroke-width="2.2" stroke-linecap="round">
+          <line x1="3" y1="6"  x2="21" y2="6" />
+          <line x1="3" y1="12" x2="21" y2="12" />
+          <line x1="3" y1="18" x2="21" y2="18" />
+        </svg>
+      </button>
+    </div>
+
+    <!-- Mobile menu -->
+    <div id="mobile-menu">
+      <div class="pb-4 flex flex-col gap-1" style="border-top:1px solid rgba(30,106,180,0.1)">
+        <a href="#accueil"   class="px-3 py-2.5 rounded-lg text-sm font-medium text-gray-700 transition-colors" style="hover:background:#e8f0fd" onclick="toggleMenu()">Accueil</a>
+        <a href="#projet"    class="px-3 py-2.5 rounded-lg text-sm font-medium text-gray-700 transition-colors" onclick="toggleMenu()">Projet</a>
+        <a href="#produits"  class="px-3 py-2.5 rounded-lg text-sm font-medium text-gray-700 transition-colors" onclick="toggleMenu()">Produits</a>
+        <a href="#avantages" class="px-3 py-2.5 rounded-lg text-sm font-medium text-gray-700 transition-colors" onclick="toggleMenu()">Avantages</a>
+        <a href="#commande"  class="px-3 py-2.5 rounded-lg text-sm font-medium text-gray-700 transition-colors" onclick="toggleMenu()">Commander</a>
+        <a href="#contact"   class="px-3 py-2.5 rounded-lg text-sm font-medium text-gray-700 transition-colors" onclick="toggleMenu()">Contact</a>
+        <a href="#commande"
+           class="mt-1 mx-2 py-2.5 rounded-full text-sm font-semibold text-white text-center shadow btn-primary"
+           onclick="toggleMenu()">Commander maintenant</a>
+      </div>
+    </div>
+  </div>
+</nav>
+
+
+<!-- ═══════════════════════════════════════════════════
+     HERO
+════════════════════════════════════════════════════ -->
+<section id="accueil" class="relative hero-clip overflow-hidden" style="background:linear-gradient(135deg,#081d3d 0%,#0f2d5e 45%,#1a4080 75%,#1e6ab4 100%);padding-top:64px">
+
+  <!-- Decorative circles -->
+  <div class="absolute top-16 right-0 w-96 h-96 rounded-full opacity-10 blur-3xl" style="background:#3b9fd4"></div>
+  <div class="absolute bottom-0 left-0 w-72 h-72 rounded-full opacity-8 blur-2xl" style="background:#60b8e8"></div>
+  <div class="absolute top-1/2 left-1/2 w-64 h-64 rounded-full opacity-5 blur-3xl" style="background:white;transform:translate(-50%,-50%)"></div>
+
+  <!-- Geometric grid lines decoration -->
+  <svg class="absolute inset-0 w-full h-full opacity-5" viewBox="0 0 800 600" preserveAspectRatio="xMidYMid slice">
+    <defs><pattern id="grid" width="60" height="60" patternUnits="userSpaceOnUse"><path d="M 60 0 L 0 0 0 60" fill="none" stroke="white" stroke-width="0.5"/></pattern></defs>
+    <rect width="100%" height="100%" fill="url(#grid)"/>
+  </svg>
+
+  <div class="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 py-20 md:py-32 text-white">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+      <div>
+        <!-- Badge Tunisie -->
+        <div class="fade-up inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-semibold mb-5"
+             style="background:rgba(59,159,212,.2);border:1px solid rgba(59,159,212,.4);color:#60b8e8">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10z"/></svg>
+          Tunisie · Société Tunisienne du Sucre · Valorisation
+        </div>
+
+        <h1 class="fade-up delay-1 font-display text-4xl sm:text-5xl md:text-6xl font-black leading-tight mb-5">
+          Alimentation Animale<br>
+          <span style="color:#60b8e8">Abordable</span><br>
+          <span style="color:rgba(255,255,255,0.7);font-size:0.75em">à base de Mélasse</span>
+        </h1>
+
+        <p class="fade-up delay-2 text-base md:text-lg leading-relaxed mb-8" style="color:rgba(255,255,255,0.78)">
+          Nous transformons les sous-produits du raffinage du sucre de la <strong style="color:#60b8e8">Société Tunisienne du Sucre</strong> en aliments de haute valeur nutritive pour le bétail — à coût réduit, de façon écologique et durable.
+        </p>
+
+        <div class="fade-up delay-3 flex flex-wrap gap-3">
+          <a href="#commande"
+             class="inline-flex items-center gap-2 px-7 py-3.5 rounded-full font-semibold text-white shadow-xl btn-sky">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+            Commander maintenant
+          </a>
+          <a href="#projet"
+             class="inline-flex items-center gap-2 px-7 py-3.5 rounded-full font-semibold transition-all hover:bg-white hover:text-navy"
+             style="border:2px solid rgba(255,255,255,0.4);color:white">
+            Découvrir le projet
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>
+          </a>
+        </div>
+
+        <!-- Stats -->
+        <div class="fade-up delay-4 mt-12 flex flex-wrap gap-8">
+          <div>
+            <div class="font-display text-3xl font-bold" style="color:#60b8e8">40%</div>
+            <div class="text-xs mt-1" style="color:rgba(255,255,255,0.6)">Réduction des coûts alimentaires</div>
+          </div>
+          <div style="width:1px;background:rgba(255,255,255,0.15)"></div>
+          <div>
+            <div class="font-display text-3xl font-bold" style="color:#60b8e8">100%</div>
+            <div class="text-xs mt-1" style="color:rgba(255,255,255,0.6)">Ingrédients naturels</div>
+          </div>
+          <div style="width:1px;background:rgba(255,255,255,0.15)"></div>
+          <div>
+            <div class="font-display text-3xl font-bold" style="color:#60b8e8">0</div>
+            <div class="text-xs mt-1" style="color:rgba(255,255,255,0.6)">Déchet industriel valorisé</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Hero visual card -->
+      <div class="hidden lg:flex justify-center">
+        <div class="relative w-80">
+          <!-- Main card -->
+          <div class="rounded-3xl p-8 shadow-2xl" style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.18);backdrop-filter:blur(12px)">
+            <div class="flex items-center gap-3 mb-6">
+              <div class="w-12 h-12 rounded-xl btn-sky flex items-center justify-center shadow-lg">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round"><path d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/><path d="M8 12s1.5 2 4 2 4-2 4-2"/><circle cx="9" cy="9" r="1" fill="white"/><circle cx="15" cy="9" r="1" fill="white"/></svg>
+              </div>
+              <div>
+                <div class="font-semibold text-white text-sm">Projet AgroMolasses</div>
+                <div class="text-xs" style="color:rgba(255,255,255,0.55)">Tunisie, 2025</div>
+              </div>
+            </div>
+            <div class="space-y-3">
+              <div class="flex items-center justify-between py-2" style="border-bottom:1px solid rgba(255,255,255,0.1)">
+                <span class="text-xs" style="color:rgba(255,255,255,0.6)">Source</span>
+                <span class="text-xs font-semibold text-white">Sté Tunisienne du Sucre</span>
+              </div>
+              <div class="flex items-center justify-between py-2" style="border-bottom:1px solid rgba(255,255,255,0.1)">
+                <span class="text-xs" style="color:rgba(255,255,255,0.6)">Matière première</span>
+                <span class="text-xs font-semibold" style="color:#60b8e8">Mélasse</span>
+              </div>
+              <div class="flex items-center justify-between py-2" style="border-bottom:1px solid rgba(255,255,255,0.1)">
+                <span class="text-xs" style="color:rgba(255,255,255,0.6)">Produit final</span>
+                <span class="text-xs font-semibold text-white">Aliment bétail</span>
+              </div>
+              <div class="flex items-center justify-between py-2">
+                <span class="text-xs" style="color:rgba(255,255,255,0.6)">Impact</span>
+                <span class="text-xs font-semibold" style="color:#60b8e8">Économique + Écologique</span>
+              </div>
+            </div>
+            <div class="mt-5 px-4 py-3 rounded-xl text-center" style="background:rgba(59,159,212,.2);border:1px solid rgba(59,159,212,.3)">
+              <div class="text-xs font-semibold" style="color:#60b8e8">🌱 Économie circulaire · Durabilité</div>
+            </div>
+          </div>
+          <!-- Floating badge -->
+          <div class="absolute -top-4 -right-4 px-3 py-2 rounded-xl text-xs font-bold shadow-xl"
+               style="background:linear-gradient(135deg,#1e6ab4,#3b9fd4);color:white;border:2px solid rgba(255,255,255,0.3)">
+            Projet rentable
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════════
+     SECTION PROJET
+════════════════════════════════════════════════════ -->
+<section id="projet" class="py-20 md:py-28 geo-bg" style="background-color:#f8fbff">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6">
+
+    <div class="text-center mb-14">
+      <p class="text-sm font-semibold tracking-widest uppercase mb-2" style="color:#1e6ab4">À Propos</p>
+      <h2 class="section-title font-display text-3xl md:text-4xl font-bold" style="color:#0f2d5e">Le Projet</h2>
+      <p class="mt-4 max-w-2xl mx-auto text-gray-600 leading-relaxed">
+        Une initiative entrepreneuriale innovante qui valorise les déchets industriels sucriers pour créer une filière d'alimentation animale durable et rentable en Tunisie.
+      </p>
+    </div>
+
+    <!-- Project description + objectives -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 mb-14">
+
+      <!-- Description card -->
+      <div class="rounded-2xl p-8 shadow-md" style="background:white;border:1px solid #daeef9">
+        <div class="flex items-center gap-3 mb-5">
+          <div class="w-11 h-11 rounded-xl btn-primary flex items-center justify-center shadow">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg>
+          </div>
+          <h3 class="font-display text-xl font-bold" style="color:#0f2d5e">Description du Projet</h3>
+        </div>
+        <p class="text-gray-600 leading-relaxed mb-4">
+          Le projet consiste à <strong style="color:#0f2d5e">exploiter les sous-produits issus du raffinage du sucre</strong> — principalement la mélasse — provenant de la <strong style="color:#1e6ab4">Société Tunisienne du Sucre</strong> pour produire des aliments pour bétail à faible coût et à haute valeur nutritive.
+        </p>
+        <p class="text-gray-600 leading-relaxed mb-5">
+          La mélasse, riche en sucres fermentescibles, minéraux et acides aminés, représente une source d'énergie exceptionnelle pour les animaux d'élevage. En la combinant avec des coproduits agricoles locaux (son, paille, farine), on obtient un aliment complet, économique et appétissant pour le bétail.
+        </p>
+        <!-- Source partnership -->
+        <div class="flex items-center gap-3 p-4 rounded-xl" style="background:#e8f0fd;border:1px solid rgba(30,106,180,.2)">
+          <div class="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0" style="background:#0f2d5e">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+          </div>
+          <div>
+            <div class="text-xs font-semibold mb-0.5" style="color:#0f2d5e">Partenaire principal</div>
+            <div class="text-sm font-bold" style="color:#1e6ab4">Société Tunisienne du Sucre (STS)</div>
+            <div class="text-xs text-gray-500">Fournisseur de mélasse brute — sous-produit du raffinage</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Objectives -->
+      <div>
+        <div class="flex items-center gap-3 mb-5">
+          <div class="w-11 h-11 rounded-xl btn-sky flex items-center justify-center shadow">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
+          </div>
+          <h3 class="font-display text-xl font-bold" style="color:#0f2d5e">Objectifs Stratégiques</h3>
+        </div>
+
+        <div class="flex flex-col gap-4">
+          <div class="obj-card rounded-xl p-5 shadow-sm card-lift" style="background:white;border-color:#1e6ab4">
+            <div class="flex items-start gap-4">
+              <div class="w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0 shadow" style="background:linear-gradient(135deg,#0f2d5e,#1e6ab4)">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 100 7h5a3.5 3.5 0 110 7H6"/></svg>
+              </div>
+              <div>
+                <h4 class="font-semibold text-sm mb-1" style="color:#0f2d5e">Réduire le coût de l'alimentation animale</h4>
+                <p class="text-xs text-gray-500 leading-relaxed">Proposer une alternative moins chère aux aliments conventionnels, permettant aux éleveurs de réduire leurs charges jusqu'à 40% et d'améliorer leur rentabilité.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="obj-card rounded-xl p-5 shadow-sm card-lift" style="background:white;border-color:#3b9fd4">
+            <div class="flex items-start gap-4">
+              <div class="w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0 shadow" style="background:linear-gradient(135deg,#1e6ab4,#3b9fd4)">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
+              </div>
+              <div>
+                <h4 class="font-semibold text-sm mb-1" style="color:#0f2d5e">Valoriser les déchets industriels</h4>
+                <p class="text-xs text-gray-500 leading-relaxed">Transformer la mélasse — déchet polluant de l'industrie sucrière — en ressource à haute valeur ajoutée, contribuant à l'économie circulaire tunisienne.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="obj-card rounded-xl p-5 shadow-sm card-lift" style="background:white;border-color:#0f2d5e">
+            <div class="flex items-start gap-4">
+              <div class="w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0 shadow" style="background:linear-gradient(135deg,#081d3d,#0f2d5e)">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+              </div>
+              <div>
+                <h4 class="font-semibold text-sm mb-1" style="color:#0f2d5e">Créer une activité rentable et durable</h4>
+                <p class="text-xs text-gray-500 leading-relaxed">Développer un modèle économique viable sur le long terme, générateur d'emplois locaux et contribuant à la sécurité alimentaire du secteur de l'élevage tunisien.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Process chain -->
+    <div class="rounded-2xl p-7 md:p-10 shadow-md" style="background:white;border:1px solid #daeef9">
+      <h3 class="font-display text-xl font-bold mb-7 text-center" style="color:#0f2d5e">Chaîne de Valorisation</h3>
+      <div class="flex flex-col md:flex-row items-center justify-between gap-4">
+        <!-- Step 1 -->
+        <div class="flex flex-col items-center text-center flex-1">
+          <div class="w-14 h-14 rounded-2xl btn-primary flex items-center justify-center shadow-lg mb-3">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+          </div>
+          <div class="font-semibold text-sm mb-1" style="color:#0f2d5e">Sté Tunisienne du Sucre</div>
+          <div class="text-xs text-gray-500">Production de mélasse brute issue du raffinage</div>
+        </div>
+        <div class="hidden md:block text-3xl font-light" style="color:#3b9fd4">→</div>
+        <div class="md:hidden w-px h-8 mx-auto" style="background:linear-gradient(to bottom,#1e6ab4,#3b9fd4)"></div>
+        <!-- Step 2 -->
+        <div class="flex flex-col items-center text-center flex-1">
+          <div class="w-14 h-14 rounded-2xl btn-sky flex items-center justify-center shadow-lg mb-3">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+          </div>
+          <div class="font-semibold text-sm mb-1" style="color:#0f2d5e">AgroMolasses</div>
+          <div class="text-xs text-gray-500">Traitement, formulation et production d'aliments</div>
+        </div>
+        <div class="hidden md:block text-3xl font-light" style="color:#3b9fd4">→</div>
+        <div class="md:hidden w-px h-8 mx-auto" style="background:linear-gradient(to bottom,#1e6ab4,#3b9fd4)"></div>
+        <!-- Step 3 -->
+        <div class="flex flex-col items-center text-center flex-1">
+          <div class="w-14 h-14 rounded-2xl flex items-center justify-center shadow-lg mb-3" style="background:linear-gradient(135deg,#1a4080,#1e6ab4)">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
+          </div>
+          <div class="font-semibold text-sm mb-1" style="color:#0f2d5e">Éleveurs Tunisiens</div>
+          <div class="text-xs text-gray-500">Distribution aux fermes et exploitations agricoles</div>
+        </div>
+        <div class="hidden md:block text-3xl font-light" style="color:#3b9fd4">→</div>
+        <div class="md:hidden w-px h-8 mx-auto" style="background:linear-gradient(to bottom,#1e6ab4,#3b9fd4)"></div>
+        <!-- Step 4 -->
+        <div class="flex flex-col items-center text-center flex-1">
+          <div class="w-14 h-14 rounded-2xl flex items-center justify-center shadow-lg mb-3" style="background:linear-gradient(135deg,#3b9fd4,#60b8e8)">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round"><path d="M12 2a10 10 0 0110 10c0 5-3.5 9.5-8.5 10.5"/><path d="M8 22C4.5 20 2 16.5 2 12A10 10 0 0112 2"/><path d="M12 8c-2 0-4 1.5-4 4s2 4 4 4 4-1.5 4-4"/></svg>
+          </div>
+          <div class="font-semibold text-sm mb-1" style="color:#0f2d5e">Impact Économique</div>
+          <div class="text-xs text-gray-500">Réduction des coûts, emplois créés, secteur renforcé</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════════
+     PRODUITS
+════════════════════════════════════════════════════ -->
+<section id="produits" class="py-20 md:py-28" style="background:white">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6">
+
+    <div class="text-center mb-14">
+      <p class="text-sm font-semibold tracking-widest uppercase mb-2" style="color:#1e6ab4">Notre Gamme</p>
+      <h2 class="section-title font-display text-3xl md:text-4xl font-bold" style="color:#0f2d5e">Nos Produits</h2>
+      <p class="mt-4 max-w-xl mx-auto text-gray-600 leading-relaxed">
+        Deux formules complémentaires à base de mélasse tunisienne, conçues pour maximiser la nutrition et l'appétibilité de votre cheptel.
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+
+      <!-- Produit 1: Mélasse Liquide -->
+      <div class="card-lift rounded-2xl overflow-hidden shadow-md" style="background:#f8fbff;border:1px solid #daeef9">
+        <!-- Image placeholder -->
+        <div class="h-52 relative flex items-center justify-center" style="background:linear-gradient(135deg,#e8f0fd 0%,#daeef9 100%)">
+          <svg width="90" height="90" viewBox="0 0 90 90" fill="none">
+            <ellipse cx="45" cy="68" rx="30" ry="12" fill="#1e6ab4" opacity="0.15"/>
+            <path d="M22 35 Q45 12 68 35 Q73 62 45 74 Q17 62 22 35Z" fill="#1a4080" opacity="0.35"/>
+            <path d="M30 38 Q45 20 60 38 Q64 58 45 68 Q26 58 30 38Z" fill="#1e6ab4" opacity="0.55"/>
+            <path d="M37 42 Q45 28 53 42 Q56 56 45 62 Q34 56 37 42Z" fill="#3b9fd4" opacity="0.6"/>
+            <ellipse cx="42" cy="37" rx="6" ry="3" fill="white" opacity="0.35" transform="rotate(-20,42,37)"/>
+          </svg>
+          <div class="absolute top-3 right-3 px-2.5 py-1 rounded-full text-xs font-bold btn-primary text-white shadow">
+            Liquide
+          </div>
+        </div>
+        <div class="p-6">
+          <h3 class="font-display text-xl font-bold mb-2" style="color:#0f2d5e">Mélasse Liquide Pure</h3>
+          <p class="text-sm text-gray-600 leading-relaxed mb-4">
+            Mélasse brute directement issue du raffinage sucrier de la STS. Concentrée en énergie, minéraux et sucres fermentescibles. Idéale comme complément ou mélangée à la ration de bovins, ovins et caprins.
+          </p>
+          <div class="flex flex-wrap gap-2 mb-5">
+            <span class="px-2.5 py-1 rounded-full text-xs font-medium" style="background:#e8f0fd;color:#0f2d5e">Haute énergie</span>
+            <span class="px-2.5 py-1 rounded-full text-xs font-medium" style="background:#daeef9;color:#1e6ab4">Riche en minéraux</span>
+            <span class="px-2.5 py-1 rounded-full text-xs font-medium" style="background:#e8f0fd;color:#0f2d5e">Tous animaux</span>
+          </div>
+          <div class="flex items-end justify-between border-t pt-4" style="border-color:#daeef9">
+            <div>
+              <div class="text-xs text-gray-400 mb-1">À partir de</div>
+              <div class="font-display text-2xl font-bold" style="color:#0f2d5e">120 DT <span class="text-sm font-normal text-gray-400">/ fût 200L</span></div>
+            </div>
+            <a href="#commande"
+               class="px-4 py-2 rounded-full text-sm font-semibold text-white shadow btn-primary transition-all hover:scale-105">
+              Commander
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Produit 2: Blocs Solides -->
+      <div class="card-lift rounded-2xl overflow-hidden shadow-md" style="background:#f8fbff;border:1px solid #daeef9">
+        <!-- Image placeholder -->
+        <div class="h-52 relative flex items-center justify-center" style="background:linear-gradient(135deg,#daeef9 0%,#e8f0fd 100%)">
+          <svg width="100" height="90" viewBox="0 0 100 90" fill="none">
+            <rect x="8"  y="46" width="24" height="20" rx="5" fill="#0f2d5e" opacity="0.55"/>
+            <rect x="37" y="40" width="24" height="26" rx="5" fill="#1e6ab4" opacity="0.6"/>
+            <rect x="66" y="48" width="22" height="18" rx="5" fill="#0f2d5e" opacity="0.5"/>
+            <rect x="20" y="28" width="20" height="20" rx="5" fill="#3b9fd4" opacity="0.5"/>
+            <rect x="50" y="24" width="20" height="18" rx="5" fill="#1e6ab4" opacity="0.4"/>
+            <ellipse cx="50" cy="66" rx="36" ry="8" fill="#1a4080" opacity="0.1"/>
+          </svg>
+          <div class="absolute top-3 right-3 px-2.5 py-1 rounded-full text-xs font-bold btn-sky text-white shadow">
+            Blocs Solides
+          </div>
+        </div>
+        <div class="p-6">
+          <h3 class="font-display text-xl font-bold mb-2" style="color:#0f2d5e">Aliment Solide Mélasse + Son</h3>
+          <p class="text-sm text-gray-600 leading-relaxed mb-4">
+            Blocs compressés combinant mélasse, son de blé et fourrage. Libération lente d'énergie et de fibres en une forme pratique et stockable. Idéal pour la complémentation en saison sèche.
+          </p>
+          <div class="flex flex-wrap gap-2 mb-5">
+            <span class="px-2.5 py-1 rounded-full text-xs font-medium" style="background:#daeef9;color:#1e6ab4">Riche en fibres</span>
+            <span class="px-2.5 py-1 rounded-full text-xs font-medium" style="background:#e8f0fd;color:#0f2d5e">Longue durée</span>
+            <span class="px-2.5 py-1 rounded-full text-xs font-medium" style="background:#daeef9;color:#1e6ab4">Facile à stocker</span>
+          </div>
+          <div class="flex items-end justify-between border-t pt-4" style="border-color:#daeef9">
+            <div>
+              <div class="text-xs text-gray-400 mb-1">À partir de</div>
+              <div class="font-display text-2xl font-bold" style="color:#0f2d5e">75 DT <span class="text-sm font-normal text-gray-400">/ bloc 25 kg</span></div>
+            </div>
+            <a href="#commande"
+               class="px-4 py-2 rounded-full text-sm font-semibold text-white shadow btn-sky transition-all hover:scale-105">
+              Commander
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Price note -->
+    <p class="text-center text-xs text-gray-400 mt-6">* Prix en Dinar Tunisien (DT) HT · Tarifs dégressifs pour commandes > 500 kg · Livraison négociable</p>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════════
+     AVANTAGES
+════════════════════════════════════════════════════ -->
+<section id="avantages" class="py-20 md:py-28 relative" style="background:linear-gradient(180deg,#f0f6ff 0%,#e8f0fd 100%)">
+  <!-- Wave top -->
+  <div class="absolute top-0 left-0 right-0 overflow-hidden" style="height:60px">
+    <svg viewBox="0 0 1200 60" preserveAspectRatio="none" style="width:100%;height:100%">
+      <path d="M0 60 L0 30 Q300 0 600 30 Q900 60 1200 20 L1200 60Z" fill="white"/>
+    </svg>
+  </div>
+
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 relative z-10">
+    <div class="text-center mb-14">
+      <p class="text-sm font-semibold tracking-widest uppercase mb-2" style="color:#1e6ab4">Pourquoi Nous Choisir</p>
+      <h2 class="section-title font-display text-3xl md:text-4xl font-bold" style="color:#0f2d5e">Avantages Clés</h2>
+      <p class="mt-4 max-w-xl mx-auto text-gray-600 leading-relaxed">
+        AgroMolasses apporte des bénéfices concrets aux éleveurs tunisiens — économiques, zootechniques et environnementaux.
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+
+      <!-- Avantage 1 -->
+      <div class="benefit-card group card-lift rounded-2xl p-7 shadow-sm cursor-default" style="background:white;border:1px solid rgba(30,106,180,.15)">
+        <div class="benefit-icon w-14 h-14 rounded-2xl flex items-center justify-center mb-5 shadow-md btn-primary">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round">
+            <line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 100 7h5a3.5 3.5 0 110 7H6"/>
+          </svg>
+        </div>
+        <h3 class="font-display text-xl font-bold mb-2" style="color:#0f2d5e">Coût Réduit</h3>
+        <p class="text-sm text-gray-600 leading-relaxed">
+          Jusqu'à 40% moins cher que les aliments conventionnels. La mélasse est un sous-produit industriel accessible, permettant aux éleveurs de réduire significativement leurs charges d'exploitation.
+        </p>
+        <div class="mt-5 flex items-center gap-2 text-xs font-semibold" style="color:#1e6ab4">
+          <div class="w-2 h-2 rounded-full" style="background:#1e6ab4"></div>
+          Économies jusqu'à 600 DT/mois
+        </div>
+      </div>
+
+      <!-- Avantage 2 -->
+      <div class="benefit-card group card-lift rounded-2xl p-7 shadow-sm cursor-default" style="background:white;border:1px solid rgba(30,106,180,.15)">
+        <div class="benefit-icon w-14 h-14 rounded-2xl flex items-center justify-center mb-5 shadow-md btn-sky">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round">
+            <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
+          </svg>
+        </div>
+        <h3 class="font-display text-xl font-bold mb-2" style="color:#0f2d5e">Améliore la Productivité</h3>
+        <p class="text-sm text-gray-600 leading-relaxed">
+          La forte teneur en sucres et l'appétibilité de la mélasse stimulent la prise alimentaire, améliorant le gain de poids, la production laitière et les taux de reproduction du cheptel.
+        </p>
+        <div class="mt-5 flex items-center gap-2 text-xs font-semibold" style="color:#3b9fd4">
+          <div class="w-2 h-2 rounded-full" style="background:#3b9fd4"></div>
+          Résultats visibles en 4–6 semaines
+        </div>
+      </div>
+
+      <!-- Avantage 3 -->
+      <div class="benefit-card group card-lift rounded-2xl p-7 shadow-sm cursor-default sm:col-span-2 lg:col-span-1" style="background:white;border:1px solid rgba(30,106,180,.15)">
+        <div class="benefit-icon w-14 h-14 rounded-2xl flex items-center justify-center mb-5 shadow-md" style="background:linear-gradient(135deg,#1a4080,#3b9fd4)">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+          </svg>
+        </div>
+        <h3 class="font-display text-xl font-bold mb-2" style="color:#0f2d5e">Solution Éco-Responsable</h3>
+        <p class="text-sm text-gray-600 leading-relaxed">
+          Chaque kilogramme d'AgroMolasses recycle un sous-produit industriel qui polluerait autrement les eaux. Contribuez à l'économie circulaire tunisienne tout que vous nourrissez votre bétail.
+        </p>
+        <div class="mt-5 flex items-center gap-2 text-xs font-semibold" style="color:#1a4080">
+          <div class="w-2 h-2 rounded-full" style="background:#1a4080"></div>
+          Zéro déchet · Agriculture durable
+        </div>
+      </div>
+    </div>
+
+    <!-- Extra benefits row -->
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-8">
+      <div class="rounded-xl p-4 text-center shadow-sm" style="background:white;border:1px solid #daeef9">
+        <div class="font-display text-2xl font-bold mb-1" style="color:#1e6ab4">Local</div>
+        <div class="text-xs text-gray-500">Matière première 100% tunisienne</div>
+      </div>
+      <div class="rounded-xl p-4 text-center shadow-sm" style="background:white;border:1px solid #daeef9">
+        <div class="font-display text-2xl font-bold mb-1" style="color:#1e6ab4">Naturel</div>
+        <div class="text-xs text-gray-500">Aucun additif chimique</div>
+      </div>
+      <div class="rounded-xl p-4 text-center shadow-sm" style="background:white;border:1px solid #daeef9">
+        <div class="font-display text-2xl font-bold mb-1" style="color:#1e6ab4">Rapide</div>
+        <div class="text-xs text-gray-500">Livraison sous 48h</div>
+      </div>
+      <div class="rounded-xl p-4 text-center shadow-sm" style="background:white;border:1px solid #daeef9">
+        <div class="font-display text-2xl font-bold mb-1" style="color:#1e6ab4">Durable</div>
+        <div class="text-xs text-gray-500">Approvisionnement garanti</div>
+      </div>
+    </div>
+
+    <!-- CTA strip -->
+    <div class="mt-10 rounded-2xl p-7 md:p-8 flex flex-col md:flex-row items-center justify-between gap-6 shadow-xl btn-primary">
+      <div class="text-center md:text-left">
+        <h3 class="font-display text-xl md:text-2xl font-bold text-white mb-1">Prêt à alimenter votre cheptel mieux et moins cher ?</h3>
+        <p style="color:rgba(255,255,255,0.72)" class="text-sm">Commandes en gros disponibles · Remises dégressives à partir de 500 kg</p>
+      </div>
+      <a href="#commande"
+         class="flex-shrink-0 inline-flex items-center gap-2 px-7 py-3 rounded-full font-semibold shadow-xl transition-all hover:scale-105"
+         style="background:white;color:#0f2d5e">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+        Commander maintenant
+      </a>
+    </div>
+  </div>
+
+  <!-- Wave bottom -->
+  <div class="absolute bottom-0 left-0 right-0 overflow-hidden" style="height:60px">
+    <svg viewBox="0 0 1200 60" preserveAspectRatio="none" style="width:100%;height:100%">
+      <path d="M0 0 L0 40 Q300 60 600 30 Q900 0 1200 50 L1200 0Z" fill="#f8fbff"/>
+    </svg>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════════
+     COMMANDE
+════════════════════════════════════════════════════ -->
+<section id="commande" class="py-20 md:py-28" style="background:#f8fbff">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
+
+      <!-- Left: info -->
+      <div>
+        <p class="text-sm font-semibold tracking-widest uppercase mb-2" style="color:#1e6ab4">Passer une Commande</p>
+        <h2 class="font-display text-3xl md:text-4xl font-bold mb-6" style="color:#0f2d5e">Comment Commander</h2>
+        <p class="text-gray-600 leading-relaxed mb-8">
+          Remplissez le formulaire et notre équipe vous contactera sous 24h pour confirmer votre commande, arrêter le prix définitif et organiser la livraison.
+        </p>
+
+        <!-- Steps -->
+        <div class="relative timeline-line flex flex-col gap-6 pl-12">
+          <div class="flex items-start gap-4">
+            <div class="absolute left-0 w-10 h-10 rounded-full btn-primary flex items-center justify-center font-display font-bold text-sm text-white shadow z-10">1</div>
+            <div>
+              <div class="font-semibold text-sm mb-1" style="color:#0f2d5e">Soumettez votre demande</div>
+              <div class="text-sm text-gray-500">Moins de 2 minutes — nom, téléphone, produit, quantité.</div>
+            </div>
+          </div>
+          <div class="flex items-start gap-4">
+            <div class="absolute left-0 w-10 h-10 rounded-full btn-sky flex items-center justify-center font-display font-bold text-sm text-white shadow z-10">2</div>
+            <div>
+              <div class="font-semibold text-sm mb-1" style="color:#0f2d5e">Confirmation & devis</div>
+              <div class="text-sm text-gray-500">Notre équipe vous rappelle avec le tarif final et le délai de livraison.</div>
+            </div>
+          </div>
+          <div class="flex items-start gap-4">
+            <div class="absolute left-0 w-10 h-10 rounded-full flex items-center justify-center font-display font-bold text-sm text-white shadow z-10" style="background:linear-gradient(135deg,#1a4080,#3b9fd4)">3</div>
+            <div>
+              <div class="font-semibold text-sm mb-1" style="color:#0f2d5e">Livraison à votre ferme</div>
+              <div class="text-sm text-gray-500">Livraison directe sur site, emballé et prêt à l'emploi partout en Tunisie.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Price table mini -->
+        <div class="mt-8 rounded-2xl overflow-hidden shadow-sm" style="border:1px solid #daeef9">
+          <div class="px-5 py-3 text-sm font-semibold" style="background:#e8f0fd;color:#0f2d5e;border-bottom:1px solid #daeef9">
+            Grille tarifaire indicative (DT)
+          </div>
+          <table class="w-full text-sm">
+            <thead>
+              <tr style="background:#f8fbff;border-bottom:1px solid #daeef9">
+                <th class="text-left px-5 py-2.5 text-xs text-gray-400 font-semibold">Produit</th>
+                <th class="text-left px-4 py-2.5 text-xs text-gray-400 font-semibold">Unité</th>
+                <th class="text-right px-5 py-2.5 text-xs text-gray-400 font-semibold">Prix DT</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr style="border-bottom:1px solid #f0f6ff">
+                <td class="px-5 py-2.5 text-xs font-medium" style="color:#0f2d5e">Mélasse Liquide</td>
+                <td class="px-4 py-2.5 text-xs text-gray-500">Fût 200L</td>
+                <td class="px-5 py-2.5 text-xs font-bold text-right" style="color:#1e6ab4">120 DT</td>
+              </tr>
+              <tr style="border-bottom:1px solid #f0f6ff">
+                <td class="px-5 py-2.5 text-xs font-medium" style="color:#0f2d5e">Aliment Solide</td>
+                <td class="px-4 py-2.5 text-xs text-gray-500">Bloc 25 kg</td>
+                <td class="px-5 py-2.5 text-xs font-bold text-right" style="color:#1e6ab4">75 DT</td>
+              </tr>
+              <tr>
+                <td class="px-5 py-2.5 text-xs font-medium" style="color:#0f2d5e">Commande > 500 kg</td>
+                <td class="px-4 py-2.5 text-xs text-gray-500">Vrac</td>
+                <td class="px-5 py-2.5 text-xs font-bold text-right" style="color:#3b9fd4">-15% remise</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Right: form -->
+      <div class="rounded-2xl p-7 md:p-9 shadow-xl" style="background:white;border:1px solid #daeef9">
+        <h3 class="font-display text-xl font-bold mb-6" style="color:#0f2d5e">Formulaire de Commande</h3>
+
+        <form id="orderForm" onsubmit="submitOrder(event)" novalidate class="flex flex-col gap-5">
+          <div>
+            <label class="block text-xs font-semibold mb-1.5" style="color:#0f2d5e;text-transform:uppercase;letter-spacing:0.07em">Nom complet <span style="color:#1e6ab4">*</span></label>
+            <input id="fname" type="text" required placeholder="ex : Mohamed Ben Ali"
+                   class="input-styled form-field" />
+          </div>
+
+          <div>
+            <label class="block text-xs font-semibold mb-1.5" style="color:#0f2d5e;text-transform:uppercase;letter-spacing:0.07em">Téléphone <span style="color:#1e6ab4">*</span></label>
+            <input id="fphone" type="tel" required placeholder="ex : +216 98 000 000"
+                   class="input-styled form-field" />
+          </div>
+
+          <div class="grid grid-cols-2 gap-4">
+            <div>
+              <label class="block text-xs font-semibold mb-1.5" style="color:#0f2d5e;text-transform:uppercase;letter-spacing:0.07em">Produit <span style="color:#1e6ab4">*</span></label>
+              <select id="fproduct" required class="input-styled form-field appearance-none">
+                <option value="" disabled selected>Choisir…</option>
+                <option value="liquide">Mélasse Liquide</option>
+                <option value="solide">Aliment Solide</option>
+                <option value="les-deux">Les deux produits</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-xs font-semibold mb-1.5" style="color:#0f2d5e;text-transform:uppercase;letter-spacing:0.07em">Quantité <span style="color:#1e6ab4">*</span></label>
+              <input id="fqty" type="text" required placeholder="ex : 500 kg"
+                     class="input-styled form-field" />
+            </div>
+          </div>
+
+          <div>
+            <label class="block text-xs font-semibold mb-1.5" style="color:#0f2d5e;text-transform:uppercase;letter-spacing:0.07em">Localisation / Gouvernorat <span style="color:#1e6ab4">*</span></label>
+            <input id="flocation" type="text" required placeholder="ex : Sfax, Monastir, Béja…"
+                   class="input-styled form-field" />
+          </div>
+
+          <div>
+            <label class="block text-xs font-semibold mb-1.5" style="color:#0f2d5e;text-transform:uppercase;letter-spacing:0.07em">Message (optionnel)</label>
+            <textarea id="fmessage" rows="2" placeholder="Précisez vos besoins ou posez vos questions…"
+                      class="input-styled form-field resize-none"></textarea>
+          </div>
+
+          <div id="form-error" class="hidden text-sm rounded-xl px-4 py-3"
+               style="background:#eff6ff;color:#1e6ab4;border:1px solid #bfdbfe">
+            Veuillez remplir tous les champs obligatoires.
+          </div>
+
+          <button type="submit"
+                  class="w-full py-3.5 rounded-xl font-semibold text-white shadow-lg btn-primary transition-all hover:shadow-xl">
+            Envoyer ma Commande
+          </button>
+
+          <p class="text-center text-xs text-gray-400">Nous vous contacterons sous 24h pour confirmation.</p>
+        </form>
+
+        <!-- Success -->
+        <div id="order-success" class="hidden text-center py-8">
+          <div class="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 shadow-md btn-primary">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+          <h3 class="font-display text-xl font-bold mb-2" style="color:#0f2d5e">Commande Envoyée avec Succès !</h3>
+          <p class="text-sm text-gray-500 max-w-xs mx-auto">Merci ! Notre équipe vous contactera sous 24h pour confirmer votre commande et organiser la livraison.</p>
+          <button onclick="resetForm()"
+                  class="mt-5 px-6 py-2.5 rounded-full text-sm font-semibold text-white btn-sky transition-all hover:scale-105">
+            Nouvelle commande
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════════
+     CONTACT
+════════════════════════════════════════════════════ -->
+<section id="contact" class="py-16 md:py-20 btn-primary">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6">
+    <div class="text-center mb-12">
+      <h2 class="font-display text-3xl md:text-4xl font-bold text-white mb-3">Contactez-nous</h2>
+      <p style="color:rgba(255,255,255,0.65)" class="max-w-md mx-auto text-sm leading-relaxed">
+        Des questions avant de commander ? Nous sommes disponibles pour vous aider à trouver la solution alimentaire idéale pour votre élevage.
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-5 max-w-3xl mx-auto mb-10">
+
+      <!-- Téléphone -->
+      <div class="card-lift rounded-2xl p-6 text-center" style="background:rgba(255,255,255,0.09);border:1px solid rgba(255,255,255,0.15)">
+        <div class="w-12 h-12 rounded-xl flex items-center justify-center mx-auto mb-4" style="background:rgba(59,159,212,.25)">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#60b8e8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 10.81a19.79 19.79 0 01-3.07-8.64A2 2 0 012 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 14.92v2z"/>
+          </svg>
+        </div>
+        <div class="text-xs font-semibold uppercase tracking-wider mb-1" style="color:rgba(255,255,255,0.5)">Appel direct</div>
+        <a href="tel:+21698000000" class="font-semibold text-white text-sm hover:text-sky transition-colors">
+          +216 98 000 000
+        </a>
+      </div>
+
+      <!-- WhatsApp -->
+      <div class="card-lift rounded-2xl p-6 text-center" style="background:rgba(255,255,255,0.09);border:1px solid rgba(255,255,255,0.15)">
+        <div class="w-12 h-12 rounded-xl flex items-center justify-center mx-auto mb-4" style="background:rgba(37,211,102,.2)">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="#25D366">
+            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+          </svg>
+        </div>
+        <div class="text-xs font-semibold uppercase tracking-wider mb-1" style="color:rgba(255,255,255,0.5)">WhatsApp</div>
+        <a href="https://wa.me/21698000000?text=Bonjour%2C%20je%20suis%20int%C3%A9ress%C3%A9%20par%20AgroMolasses"
+           target="_blank"
+           class="font-semibold text-sm transition-all hover:scale-105 inline-block" style="color:#25D366">
+          Discuter maintenant →
+        </a>
+      </div>
+
+      <!-- Email -->
+      <div class="card-lift rounded-2xl p-6 text-center" style="background:rgba(255,255,255,0.09);border:1px solid rgba(255,255,255,0.15)">
+        <div class="w-12 h-12 rounded-xl flex items-center justify-center mx-auto mb-4" style="background:rgba(96,184,232,.18)">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#60b8e8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+            <polyline points="22,6 12,13 2,6"/>
+          </svg>
+        </div>
+        <div class="text-xs font-semibold uppercase tracking-wider mb-1" style="color:rgba(255,255,255,0.5)">Email</div>
+        <a href="mailto:contact@agromolasses.tn" class="font-semibold text-white text-sm hover:text-sky transition-colors break-all">
+          contact@agromolasses.tn
+        </a>
+      </div>
+    </div>
+
+    <!-- Location -->
+    <div class="max-w-xl mx-auto rounded-2xl p-5 text-center" style="background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.12)">
+      <div class="flex items-center justify-center gap-2 mb-2">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.6)" stroke-width="2" stroke-linecap="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        <span class="text-xs font-semibold uppercase tracking-wider" style="color:rgba(255,255,255,0.5)">Localisation</span>
+      </div>
+      <p class="text-white font-semibold text-sm">Tunisie · Approvisionnement via Société Tunisienne du Sucre</p>
+      <p class="text-xs mt-1" style="color:rgba(255,255,255,0.5)">Livraison dans tous les gouvernorats tunisiens</p>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════════
+     FOOTER
+════════════════════════════════════════════════════ -->
+<footer style="background:#081d3d;border-top:1px solid rgba(59,159,212,0.15)">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 py-8">
+    <div class="flex flex-col md:flex-row items-center justify-between gap-6">
+
+      <!-- Logo -->
+      <div class="flex items-center gap-2.5">
+        <div class="w-8 h-8 rounded-lg btn-sky flex items-center justify-center shadow">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+        </div>
+        <div>
+          <span class="font-display font-bold" style="color:rgba(255,255,255,0.9)">Agro<span style="color:#3b9fd4">Molasses</span></span>
+          <div class="text-xs" style="color:rgba(255,255,255,0.35)">Valorisation · Durabilité · Tunisie</div>
+        </div>
+      </div>
+
+      <!-- Nav -->
+      <div class="flex flex-wrap justify-center gap-5">
+        <a href="#accueil"   class="text-xs transition-colors hover:text-white" style="color:rgba(255,255,255,0.45)">Accueil</a>
+        <a href="#projet"    class="text-xs transition-colors hover:text-white" style="color:rgba(255,255,255,0.45)">Projet</a>
+        <a href="#produits"  class="text-xs transition-colors hover:text-white" style="color:rgba(255,255,255,0.45)">Produits</a>
+        <a href="#avantages" class="text-xs transition-colors hover:text-white" style="color:rgba(255,255,255,0.45)">Avantages</a>
+        <a href="#commande"  class="text-xs transition-colors hover:text-white" style="color:rgba(255,255,255,0.45)">Commander</a>
+        <a href="#contact"   class="text-xs transition-colors hover:text-white" style="color:rgba(255,255,255,0.45)">Contact</a>
+      </div>
+
+      <!-- Copyright -->
+      <p class="text-xs" style="color:rgba(255,255,255,0.3)">© 2025 AgroMolasses · Tunisie · Tous droits réservés</p>
+    </div>
+  </div>
+</footer>
+
+
+<!-- ═══════════════════════════════════════════════════
+     JAVASCRIPT
+════════════════════════════════════════════════════ -->
+<script>
+  /* ── Menu mobile ─────────────────────────── */
+  function toggleMenu() {
+    document.getElementById('mobile-menu').classList.toggle('open');
+  }
+  document.addEventListener('click', (e) => {
+    const menu = document.getElementById('mobile-menu');
+    const btn  = document.getElementById('menu-btn');
+    if (!btn.contains(e.target) && !menu.contains(e.target)) {
+      menu.classList.remove('open');
+    }
+  });
+
+  /* ── Navbar ombre au scroll ──────────────── */
+  window.addEventListener('scroll', () => {
+    const nav = document.getElementById('navbar');
+    nav.style.boxShadow = window.scrollY > 20
+      ? '0 4px 28px rgba(15,45,94,0.12)'
+      : 'none';
+  });
+
+  /* ── Formulaire de commande ──────────────── */
+  function submitOrder(e) {
+    e.preventDefault();
+    const fields = ['fname', 'fphone', 'fproduct', 'fqty', 'flocation'];
+    const errEl  = document.getElementById('form-error');
+    let valid    = true;
+
+    fields.forEach(id => {
+      const el = document.getElementById(id);
+      if (!el || !el.value.trim()) {
+        if (el) el.style.borderColor = '#f87171';
+        valid = false;
+      } else {
+        el.style.borderColor = '#1e6ab4';
+      }
+    });
+
+    if (!valid) {
+      errEl.classList.remove('hidden');
+      return;
+    }
+
+    errEl.classList.add('hidden');
+    document.getElementById('orderForm').classList.add('hidden');
+    document.getElementById('order-success').classList.remove('hidden');
+  }
+
+  function resetForm() {
+    const form = document.getElementById('orderForm');
+    form.reset();
+    form.classList.remove('hidden');
+    document.getElementById('order-success').classList.add('hidden');
+    ['fname','fphone','fproduct','fqty','flocation'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.style.borderColor = '#c7daf5';
+    });
+  }
+
+  /* ── Scroll reveal ───────────────────────── */
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.style.opacity   = '1';
+        entry.target.style.transform = 'translateY(0)';
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.card-lift, .benefit-card, .obj-card').forEach(el => {
+    el.style.opacity    = '0';
+    el.style.transform  = 'translateY(20px)';
+    el.style.transition = 'opacity 0.55s ease, transform 0.55s ease, box-shadow 0.3s ease, border-color 0.3s ease';
+    observer.observe(el);
+  });
+</script>
+</body>
+</html>
